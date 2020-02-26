@@ -1,0 +1,186 @@
+SQL> select *from emp;
+
+no rows selected
+
+SQL> desc emp
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ ID                                                 VARCHAR2(20)
+ NAME                                               VARCHAR2(20)
+ DESIG                                              VARCHAR2(20)
+ SALARY                                             NUMBER(38)
+ LOCATION                                           VARCHAR2(20)
+
+SQL> select * from emp;
+
+no rows selected
+
+SQL> insert into emp values('a1','rani','manager',20000,'coimbatore');
+
+1 row created.
+
+SQL> insert into emp values('a2','kavin','teamleader',30000,'chennai');
+
+1 row created.
+
+SQL> insert into emp values('a3','preethi','hr',40000,'erode');
+
+1 row created.
+
+SQL> select * from emp;
+
+ID                   NAME                 DESIG                    SALARY       
+-------------------- -------------------- -------------------- ----------       
+LOCATION                                                                        
+--------------------                                                            
+a1                   rani                 manager                   20000       
+coimbatore                                                                      
+                                                                                
+a2                   kavin                teamleader                30000       
+chennai                                                                         
+                                                                                
+a3                   preethi              hr                        40000       
+erode                                                                           
+                                                                                
+
+SQL> selcet concat(concat(name,'is for'),desig)from emp;
+SP2-0734: unknown command beginning "selcet con..." - rest of line ignored.
+SQL> select concat(concat(name,'is for'),desig)from emp;
+
+CONCAT(CONCAT(NAME,'ISFOR'),DESIG)                                              
+----------------------------------------------                                  
+raniis formanager                                                               
+kavinis forteamleader                                                           
+preethiis forhr                                                                 
+
+SQL> select concat(concat(name,'location is')location)from emp;
+select concat(concat(name,'location is')location)from emp
+       *
+ERROR at line 1:
+ORA-00909: invalid number of arguments 
+
+
+SQL> select concat(concat(name,'is for')location)from emp;
+select concat(concat(name,'is for')location)from emp
+       *
+ERROR at line 1:
+ORA-00909: invalid number of arguments 
+
+
+SQL> select concat(name,location)from emp;
+
+CONCAT(NAME,LOCATION)                                                           
+----------------------------------------                                        
+ranicoimbatore                                                                  
+kavinchennai                                                                    
+preethierode                                                                    
+
+SQL> select concat(concat(name'lives in')location)from emp;
+select concat(concat(name'lives in')location)from emp
+              *
+ERROR at line 1:
+ORA-00909: invalid number of arguments 
+
+
+SQL> select concat(concat(name,'lives in'),location)from emp;
+
+CONCAT(CONCAT(NAME,'LIVESIN'),LOCATION)                                         
+------------------------------------------------                                
+ranilives incoimbatore                                                          
+kavinlives inchennai                                                            
+preethilives inerode                                                            
+
+SQL> select substr(name,2,2)"substring"from emp;
+
+substrin                                                                        
+--------                                                                        
+an                                                                              
+av                                                                              
+re                                                                              
+
+SQL> select name,length(name)length from emp order by length desc,name;
+
+NAME                     LENGTH                                                 
+-------------------- ----------                                                 
+preethi                       7                                                 
+kavin                         5                                                 
+rani                          4                                                 
+
+SQL> update table emp set date of arrival date;
+update table emp set date of arrival date
+       *
+ERROR at line 1:
+ORA-00903: invalid table name 
+
+
+SQL> alter table emp add date_of_join date;
+
+Table altered.
+
+SQL> update emp set date_of_join='19-jun-1998' where id='a1';
+
+1 row updated.
+
+SQL> update emp set date_of_join='20-dec-2000' where id='a2';
+
+1 row updated.
+
+SQL> update emp set date_of_join='10-jan-1989' where id='a3';
+
+1 row updated.
+
+SQL> select extract(day from date_of_join)as onlyday from emp;
+
+   ONLYDAY                                                                      
+----------                                                                      
+        19                                                                      
+        20                                                                      
+        10                                                                      
+
+SQL> select add_months(date_of_join,-1)as prevmonth from emp;
+
+PREVMONTH                                                                       
+---------                                                                       
+19-MAY-98                                                                       
+20-NOV-00                                                                       
+10-DEC-88                                                                       
+
+SQL> select last_day(date_of_join)-date_of_join as daysleft from emp;
+
+  DAYSLEFT                                                                      
+----------                                                                      
+        11                                                                      
+        11                                                                      
+        21                                                                      
+
+SQL> select months_between(sysdate,date_of_join)from emp;
+
+MONTHS_BETWEEN(SYSDATE,DATE_OF_JOIN)                                            
+------------------------------------                                            
+                          256.084623                                            
+                          226.052364                                            
+                          369.374945                                            
+
+SQL> select to_char(date_of_join)"today"from emp;
+
+today                                                                           
+------------------                                                              
+19-JUN-98                                                                       
+20-DEC-00                                                                       
+10-JAN-89                                                                       
+
+SQL> select to_char(date_of_join,'day')"today"from emp;
+
+today                                                                           
+------------------------------------                                            
+friday                                                                          
+wednesday                                                                       
+tuesday                                                                         
+
+SQL> select date_of_join from emp where name>'r' group by date_of_join;
+
+DATE_OF_J                                                                       
+---------                                                                       
+19-JUN-98                                                                       
+
+SQL> spool off
